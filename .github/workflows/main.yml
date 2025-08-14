@@ -38,7 +38,8 @@ jobs:
 
       # Step 5 Run SonarQube scan
       - name: Build and analyze with SonarQube
-        run: mvn sonar:sonar \
+        run: | 
+          mvn sonar:sonar \
               -Dsonar.projectKey=banita1985_Capstone-GitHubAction \
               -Dsonar.organization=banita1985 \
               -Dsonar.host.url=https://sonarcloud.io \

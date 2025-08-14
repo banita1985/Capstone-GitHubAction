@@ -8,6 +8,9 @@ jobs:
   build-and-scan: 
     runs-on: ubuntu-latest
 
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
     steps:
       # Step 1: Checkout source code
       - name: Checkout repository
@@ -33,8 +36,23 @@ jobs:
       - name: Build with Maven
         run: mvn -B clean package
 
+      # Step 5 Run SonarQube scan
+      - name: Build and analyze with SonarQube
+        run: mvn sonar:sonar \
+              -Dsonar.projectKey=banita1985_Capstone-GitHubAction \
+              -Dsonar.organization=banita1985 \
+              -Dsonar.host.url=https://sonarcloud.io \
+              -Dsonar.login=$SONAR_TOKEN
+      # Step 6 List and Upload the artifacts
       - name: List target directory
         run: ls -l target/
+
+      - name: Upload JAR artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: githubaction-jar
+          path: target/*.jar
+        
 
 
     

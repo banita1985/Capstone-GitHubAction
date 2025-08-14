@@ -2,7 +2,7 @@ name: Migrating Jenkin-GitHub Action
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 jobs:
   build-and-scan: 

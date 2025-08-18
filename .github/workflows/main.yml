@@ -11,7 +11,7 @@ jobs:
     env:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      DOCKER_PWD: ${{ secrets.DOCKER_PWD }}
+      DOCKER_PWD: ${{ secrets.DOCKER_PASSWORD }}
 
     steps:
       # Step 1: Checkout source code

@@ -1,15 +1,14 @@
-# ===== Build Stage =====
-FROM maven:3.8.6-openjdk-11 AS builder
+# Use a lightweight JDK base image
+FROM eclipse-temurin:17-jdk-alpine
+
+# Set working directory
 WORKDIR /app
-COPY . .
-RUN mvn clean package -DskipTests
 
-# ===== Runtime Stage =====
-FROM tomcat:9-jre11
-RUN rm -rf /usr/local/tomcat/webapps/*
-COPY --from=builder /app/target/*.war /usr/local/tomcat/webapps/ROOT.war
+# Copy the built JAR file from target/ to the container
+COPY target/*.jar app.jar
 
-EXPOSE 8080
-CMD ["catalina.sh", "run"]
+# Run the JAR file
+ENTRYPOINT ["java", "-jar", "app.jar"]
+
 
 

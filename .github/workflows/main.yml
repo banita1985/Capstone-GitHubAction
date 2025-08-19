@@ -61,25 +61,29 @@ jobs:
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
               
     steps:
-      # Step 1: Download JAR from CI job
+      # Step 1: Checkout source code (needed for Dockerfile)
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Download JAR from CI job
       - name: Download JAR artifact
         uses: actions/download-artifact@v4
         with:
           name: githubaction-jar
           path: target/
 
-      # Step 2: Log in to Docker Hub
+      # Step 3: Log in to Docker Hub
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Step 3: Build Docker image using the JAR
+      # Step 4: Build Docker image using the JAR + Dockerfile
       - name: Build Docker Image
         run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/capstone:1.0 .
 
-      # Step 4: Push Docker image to Docker Hub
+      # Step 5: Push Docker image to Docker Hub
       - name: Push Docker Image
         run: docker push ${{ secrets.DOCKER_USERNAME }}/capstone:1.0
